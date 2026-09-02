@@ -197,6 +197,25 @@ w.document.write('<div class="cta"><h3 style="color:#fff">Ready to Close Your Gr
 w.document.write('<div class="footer"><p>&copy; 2025 MR Growth Partners. Growth Gap Scorecard&trade; is a trademark.</p></div>');
 w.document.write('</body></html>');
 w.document.close();
-};</script>
+};
+
+// Update scorecard section
+var scInterval = setInterval(function(){
+  var sc = document.getElementById('scoreOut');
+  var op = document.getElementById('oppOut');
+  if(sc && sc.textContent && sc.textContent !== '--'){
+    document.getElementById('scScore').textContent = sc.textContent;
+    document.getElementById('scOpp').textContent = op.textContent;
+    document.getElementById('scGaps').innerHTML = document.getElementById('gapsOut').innerHTML;
+    document.getElementById('scSignals').innerHTML = document.getElementById('signalsOut').innerHTML;
+    var ga = document.querySelectorAll('#gapsOut .gap-row');
+    if(ga.length > 0){
+      var topGap = ga[0].querySelector('.gap-name').textContent;
+      var topVal = ga[0].querySelector('.gap-value').textContent;
+      document.getElementById('scSummary').textContent = 'Your biggest gap is ' + topGap + ' worth ' + topVal + '. Closing this gap alone could transform your business. Our Growth Gap Review™ will validate these findings and build a prioritised action plan.';
+    }
+    clearInterval(scInterval);
+  }
+}, 500);</script>
 </body>
 </html>
