@@ -95,13 +95,12 @@ body{background:#f8f6f3;color:#18181b;-webkit-font-smoothing:antialiased}
 
 <script>
 var ak='AIzaSyDHTr05tzOKKvFUWNIV90dMFuIuYWr0wiY';
-document.getElementById('scanBtn').onclick=function(){function delay(ms){return new Promise(function(r){setTimeout(r,ms)})}
+document.getElementById('scanBtn').onclick=function(){
 var cu=document.getElementById('su').value.trim();
 if(!cu){document.getElementById('status').textContent='Please enter a website name';return}
 document.getElementById('scanResults').style.display='none';document.getElementById('form').style.display='none';
 var st=document.getElementById('status');
-st.innerHTML='<span style="color:#f0b55d">⏳</span> Initialising scan...';
-(async function(){
+(function(){var d=function(ms){return new Promise(function(r){setTimeout(r,ms)})};(async function(){await d(1500);st.innerHTML='<span style="color:#f0b55d">⏳</span> Initialising scan...';{
 await delay(1500);
 st.innerHTML='<span style="color:#f0b55d">⏳</span> Checking website availability...';
 await delay(1500);
@@ -164,12 +163,7 @@ document.getElementById('scanResults').innerHTML='<p style="font-weight:600;marg
 document.getElementById('scanResults').style.display='block';document.getElementById('form').style.display='block';
 document.getElementById('form').scrollIntoView({behavior:'smooth',block:'start'});
 }
-})();}rc=p.userRatingCount||0;ar=p.rating||0;bn=p.displayName?.text||'';
-if(rc>0){if(rc<=10)document.getElementById('rev').value='1-10';else if(rc<=25)document.getElementById('rev').value='11-25';else if(rc<=50)document.getElementById('rev').value='26-50';else if(rc<=100)document.getElementById('rev').value='51-100';else document.getElementById('rev').value='100+';}
-if(ar>0){if(ar>=4.5)document.getElementById('rat').value='4.5';else if(ar>=4)document.getElementById('rat').value='4';else if(ar>=3.5)document.getElementById('rat').value='3.5';else document.getElementById('rat').value='3';}
-if(bn)document.getElementById('bn').value=bn;
-return {perf:ps,reviews:rc,rating:ar,name:bn};
-}).catch(function(){return {perf:ps,reviews:0,rating:0,name:''};});}else{return {perf:ps,reviews:0,rating:0,name:''};}
+})();})();})();}else{return {perf:ps,reviews:0,rating:0,name:''};}
 }).then(function(sd){
 fetch('https://'+cu,{mode:'cors'}).then(function(r){return r.text()}).then(function(h){
 var h2=h.toLowerCase();var sig={hasCTA:h2.indexOf('class="btn')>-1||h2.indexOf('get started')>-1||h2.indexOf('book now')>-1,hasBooking:h2.indexOf('book')>-1||h2.indexOf('appointment')>-1||h2.indexOf('calendly')>-1,hasChat:h2.indexOf('chat')>-1||h2.indexOf('tawk')>-1||h2.indexOf('intercom')>-1,hasForm:h2.indexOf('<form')>-1||h2.indexOf('input type="email"')>-1};
