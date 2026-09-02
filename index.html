@@ -95,43 +95,78 @@ body{background:#f8f6f3;color:#18181b;-webkit-font-smoothing:antialiased}
 
 <script>
 var ak='AIzaSyDHTr05tzOKKvFUWNIV90dMFuIuYWr0wiY';
-document.getElementById('scanBtn').onclick=function(){var w=function(m){return new Promise(function(r){setTimeout(r,m)})};var cu=document.getElementById('su').value.trim();if(!cu){document.getElementById('status').textContent='Please enter a website name';return}document.getElementById('scanResults').style.display='none';document.getElementById('form').style.display='none';var st=document.getElementById('status');(async function(){st.innerHTML='<span style="color:#f0b55d">⏳</span> Initialising...';await w(1500);st.innerHTML='<span style="color:#f0b55d">⏳</span> Checking website...';await w(1500);st.innerHTML='<span style="color:#f0b55d">⏳</span> Testing page speed...';await w(1500);st.innerHTML='<span style="color:#f0b55d">⏳</span> Checking mobile responsiveness...';var ps=0;try{var d=await fetch('https://pagespeed.web.dev/api?url=https://'+cu+'&category=performance&strategy=mobile').then(function(r){return r.json()});if(d&&d.lighthouseResult&&d.lighthouseResult.categories&&d.lighthouseResult.categories.performance)ps=Math.round(d.lighthouseResult.categories.performance.score*100);st.innerHTML='<span style="color:#16a34a">✅</span> Speed: '+ps+'/100';}catch(e){st.innerHTML='<span style="color:#ca8a04">⚠️</span> Speed check failed.';}await w(1500);st.innerHTML='<span style="color:#f0b55d">⏳</span> Fetching Google reviews...';var rc=0,ar=0,bn='';if(ak&&ak.length>10){try{var pd=await fetch('https://places.googleapis.com/v1/places:searchText?key='+ak,{method:'POST',headers:{'Content-Type':'application/json','X-Goog-FieldMask':'places.displayName,places.userRatingCount,places.rating,places.websiteUri'},body:JSON.stringify({textQuery:cu,maxResultCount:1})}).then(function(r){return r.json()});var p=pd.places?.[0]||{};rc=p.userRatingCount||0;ar=p.rating||0;bn=p.displayName?.text||'';if(rc>0){if(rc<=10)document.getElementById('rev').value='1-10';else if(rc<=25)document.getElementById('rev').value='11-25';else if(rc<=50)document.getElementById('rev').value='26-50';else if(rc<=100)document.getElementById('rev').value='51-100';else document.getElementById('rev').value='100+';}if(ar>0){if(ar>=4.5)document.getElementById('rat').value='4.5';else if(ar>=4)document.getElementById('rat').value='4';else if(ar>=3.5)document.getElementById('rat').value='3.5';else document.getElementById('rat').value='3';}if(bn)document.getElementById('bn').value=bn;st.innerHTML='<span style="color:#16a34a">✅</span> Reviews: '+rc+' (⭐'+ar+')';}catch(e){st.innerHTML='<span style="color:#ca8a04">⚠️</span> Places API error.';}}else{st.innerHTML='<span style="color:#ca8a04">⚠️</span> No API key.';}await w(1500);st.innerHTML='<span style="color:#f0b55d">⏳</span> Scanning for CTAs...';await w(1200);st.innerHTML='<span style="color:#f0b55d">⏳</span> Checking booking system...';await w(1200);st.innerHTML='<span style="color:#f0b55d">⏳</span> Looking for live chat...';await w(1200);st.innerHTML='<span style="color:#f0b55d">⏳</span> Analysing lead capture...';try{var h=await fetch('https://'+cu,{mode:'cors'}).then(function(r){return r.text()});var h2=h.toLowerCase();var sig={hasCTA:h2.indexOf('class="btn')>-1||h2.indexOf('get started')>-1||h2.indexOf('book now')>-1,hasBooking:h2.indexOf('book')>-1||h2.indexOf('appointment')>-1||h2.indexOf('calendly')>-1,hasChat:h2.indexOf('chat')>-1||h2.indexOf('tawk')>-1||h2.indexOf('intercom')>-1,hasForm:h2.indexOf('<form')>-1||h2.indexOf('input type="email"')>-1};if(sig.hasCTA)document.querySelector('input[name="c1"][value="yes"]').checked=true;else document.querySelector('input[name="c1"][value="unclear"]').checked=true;if(sig.hasBooking)document.querySelector('input[name="c3"][value="yes"]').checked=true;else document.querySelector('input[name="c3"][value="no"]').checked=true;if(sig.hasChat)document.querySelector('input[name="c4"][value="yes"]').checked=true;else document.querySelector('input[name="c4"][value="no"]').checked=true;if(sig.hasForm)document.querySelector('input[name="c2"][value="all"]').checked=true;else document.querySelector('input[name="c2"][value="some"]').checked=true;var rh='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px">';rh+='<div>'+(ps>=50?'✅':'❌')+' Speed: <strong>'+(ps?ps+'/100':'N/A')+'</strong></div>';rh+='<div>'+(rc>0?'✅':'⚠️')+' Reviews: <strong>'+(rc>0?rc+' (⭐'+ar+')':'unknown')+'</strong></div>';rh+='<div>'+(bn?'✅':'—')+' Business: <strong>'+(bn||'auto')+'</strong></div>';rh+='<div>'+(sig.hasCTA?'✅':'⚠️')+' CTA: '+(sig.hasCTA?'found':'unclear')+'</div>';rh+='<div>'+(sig.hasBooking?'✅':'⚠️')+' Booking: '+(sig.hasBooking?'found':'missing')+'</div>';rh+='<div>'+(sig.hasChat?'✅':'⚠️')+' Chat: '+(sig.hasChat?'found':'missing')+'</div>';rh+='<div>'+(sig.hasForm?'✅':'⚠️')+' Forms: '+(sig.hasForm?'found':'missing')+'</div></div>';document.getElementById('scanResults').innerHTML='<p style="font-weight:600;margin-bottom:8px">✅ Scan Results</p>'+rh;document.getElementById('scanResults').style.display='block';document.getElementById('form').style.display='block';document.getElementById('form').scrollIntoView({behavior:'smooth',block:'start'});st.innerHTML='<span style="color:#16a34a">✅</span> Scan complete!';}catch(e){st.innerHTML='<span style="color:#ca8a04">⚠️</span> Website fetch blocked.';var rh='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px">';rh+='<div>'+(ps>=50?'✅':'❌')+' Speed: <strong>'+(ps?ps+'/100':'N/A')+'</strong></div>';rh+='<div>'+(rc>0?'✅':'⚠️')+' Reviews: <strong>'+(rc>0?rc+' (⭐'+ar+')':'unknown')+'</strong></div>';rh+='<div>'+(bn?'✅':'—')+' Business: <strong>'+(bn||'auto')+'</strong></div></div>';document.getElementById('scanResults').innerHTML='<p style="font-weight:600;margin-bottom:8px">⚠️ Partial Results</p>'+rh;document.getElementById('scanResults').style.display='block';document.getElementById('form').style.display='block';document.getElementById('form').scrollIntoView({behavior:'smooth',block:'start'});}})();};}else{return {perf:ps,reviews:0,rating:0,name:''};}
-}).then(function(sd){
-fetch('https://'+cu,{mode:'cors'}).then(function(r){return r.text()}).then(function(h){
-var h2=h.toLowerCase();var sig={hasCTA:h2.indexOf('class="btn')>-1||h2.indexOf('get started')>-1||h2.indexOf('book now')>-1,hasBooking:h2.indexOf('book')>-1||h2.indexOf('appointment')>-1||h2.indexOf('calendly')>-1,hasChat:h2.indexOf('chat')>-1||h2.indexOf('tawk')>-1||h2.indexOf('intercom')>-1,hasForm:h2.indexOf('<form')>-1||h2.indexOf('input type="email"')>-1};
-if(sig.hasCTA)document.querySelector('input[name="c1"][value="yes"]').checked=true;else document.querySelector('input[name="c1"][value="unclear"]').checked=true;
-if(sig.hasBooking)document.querySelector('input[name="c3"][value="yes"]').checked=true;else document.querySelector('input[name="c3"][value="no"]').checked=true;
-if(sig.hasChat)document.querySelector('input[name="c4"][value="yes"]').checked=true;else document.querySelector('input[name="c4"][value="no"]').checked=true;
-if(sig.hasForm)document.querySelector('input[name="c2"][value="all"]').checked=true;else document.querySelector('input[name="c2"][value="some"]').checked=true;
-var rh='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px">';
-rh+='<div>'+(sd.perf>=50?'✅':'❌')+' Speed: <strong>'+(sd.perf?sd.perf+'/100':'N/A')+'</strong></div>';
-rh+='<div>'+(sd.reviews>0?'✅':'⚠️')+' Reviews: <strong>'+(sd.reviews>0?sd.reviews+' (⭐'+sd.rating+')':'unknown')+'</strong></div>';
-rh+='<div>'+(sd.name?'✅':'—')+' Business: <strong>'+(sd.name||'auto')+'</strong></div>';
-rh+='<div>'+(sig.hasCTA?'✅':'⚠️')+' CTA: '+(sig.hasCTA?'found':'unclear')+'</div>';
-rh+='<div>'+(sig.hasBooking?'✅':'⚠️')+' Booking: '+(sig.hasBooking?'found':'missing')+'</div>';
-rh+='<div>'+(sig.hasChat?'✅':'⚠️')+' Chat: '+(sig.hasChat?'found':'missing')+'</div>';
-rh+='<div>'+(sig.hasForm?'✅':'⚠️')+' Forms: '+(sig.hasForm?'found':'missing')+'</div></div>';
-document.getElementById('scanResults').innerHTML='<p style="font-weight:600;margin-bottom:8px">🔍 Results</p>'+rh;
-document.getElementById('scanResults').style.display='block';document.getElementById('form').style.display='block';
-document.getElementById('form').scrollIntoView({behavior:'smooth',block:'start'});
-document.getElementById('status').innerHTML='<span style="color:#16a34a">✅</span> Scan complete!';
-}).catch(function(){
-document.getElementById('status').innerHTML='<span style="color:#ca8a04">⚠️</span> Website fetch blocked.';
-var rh='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px">';
-rh+='<div>'+(sd.perf>=50?'✅':'❌')+' Speed: <strong>'+(sd.perf?sd.perf+'/100':'N/A')+'</strong></div>';
-rh+='<div>'+(sd.reviews>0?'✅':'⚠️')+' Reviews: <strong>'+(sd.reviews>0?sd.reviews+' (⭐'+sd.rating+')':'unknown')+'</strong></div>';
-rh+='<div>'+(sd.name?'✅':'—')+' Business: <strong>'+(sd.name||'auto')+'</strong></div></div>';
-document.getElementById('scanResults').innerHTML='<p style="font-weight:600;margin-bottom:8px">🔍 Results</p>'+rh;
-document.getElementById('scanResults').style.display='block';document.getElementById('form').style.display='block';
-document.getElementById('form').scrollIntoView({behavior:'smooth',block:'start'});
-});
-});
+
+document.getElementById('scanBtn').onclick=function(){
+  var cu=document.getElementById('su').value.trim();
+  if(!cu){document.getElementById('status').textContent='Please enter a website name';return}
+  document.getElementById('scanResults').style.display='none';
+  document.getElementById('form').style.display='none';
+  var st=document.getElementById('status');
+  st.innerHTML='⏳ Scanning your website...';
+  
+  setTimeout(function(){
+    st.innerHTML='⏳ Checking page speed...';
+    fetch('https://pagespeed.web.dev/api?url=https://'+cu+'&category=performance&strategy=mobile').then(function(r){return r.json()}).then(function(d){
+      var ps=0;
+      if(d&&d.lighthouseResult&&d.lighthouseResult.categories&&d.lighthouseResult.categories.performance)ps=Math.round(d.lighthouseResult.categories.performance.score*100);
+      st.innerHTML='✅ Speed: '+ps+'/100';
+      
+      setTimeout(function(){
+        st.innerHTML='⏳ Fetching Google reviews...';
+        if(ak&&ak.length>10){
+          fetch('https://places.googleapis.com/v1/places:searchText?key='+ak,{method:'POST',headers:{'Content-Type':'application/json','X-Goog-FieldMask':'places.displayName,places.userRatingCount,places.rating,places.websiteUri'},body:JSON.stringify({textQuery:cu,maxResultCount:1})}).then(function(r){return r.json()}).then(function(pd){
+            var rc=0,ar=0,bn='';var p=pd.places?.[0]||{};rc=p.userRatingCount||0;ar=p.rating||0;bn=p.displayName?.text||'';
+            if(rc>0){if(rc<=10)document.getElementById('rev').value='1-10';else if(rc<=25)document.getElementById('rev').value='11-25';else if(rc<=50)document.getElementById('rev').value='26-50';else if(rc<=100)document.getElementById('rev').value='51-100';else document.getElementById('rev').value='100+';}
+            if(ar>0){if(ar>=4.5)document.getElementById('rat').value='4.5';else if(ar>=4)document.getElementById('rat').value='4';else if(ar>=3.5)document.getElementById('rat').value='3.5';else document.getElementById('rat').value='3';}
+            if(bn)document.getElementById('bn').value=bn;
+            st.innerHTML='✅ Reviews: '+rc+' (⭐'+ar+')';
+            
+            setTimeout(function(){
+              st.innerHTML='⏳ Scanning on-page signals...';
+              fetch('https://'+cu,{mode:'cors'}).then(function(r){return r.text()}).then(function(h){
+                var h2=h.toLowerCase();
+                var sig={hasCTA:h2.indexOf('class="btn')>-1||h2.indexOf('get started')>-1||h2.indexOf('book now')>-1,hasBooking:h2.indexOf('book')>-1||h2.indexOf('appointment')>-1||h2.indexOf('calendly')>-1,hasChat:h2.indexOf('chat')>-1||h2.indexOf('tawk')>-1||h2.indexOf('intercom')>-1,hasForm:h2.indexOf('<form')>-1||h2.indexOf('input type="email"')>-1};
+                if(sig.hasCTA)document.querySelector('input[name="c1"][value="yes"]').checked=true;else document.querySelector('input[name="c1"][value="unclear"]').checked=true;
+                if(sig.hasBooking)document.querySelector('input[name="c3"][value="yes"]').checked=true;else document.querySelector('input[name="c3"][value="no"]').checked=true;
+                if(sig.hasChat)document.querySelector('input[name="c4"][value="yes"]').checked=true;else document.querySelector('input[name="c4"][value="no"]').checked=true;
+                if(sig.hasForm)document.querySelector('input[name="c2"][value="all"]').checked=true;else document.querySelector('input[name="c2"][value="some"]').checked=true;
+                var rh='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px">';
+                rh+='<div>'+(ps>=50?'✅':'❌')+' Speed: <strong>'+(ps?ps+'/100':'N/A')+'</strong></div>';
+                rh+='<div>'+(rc>0?'✅':'⚠️')+' Reviews: <strong>'+(rc>0?rc+' (⭐'+ar+')':'unknown')+'</strong></div>';
+                rh+='<div>'+(bn?'✅':'—')+' Business: <strong>'+(bn||'auto')+'</strong></div>';
+                rh+='<div>'+(sig.hasCTA?'✅':'⚠️')+' CTA: '+(sig.hasCTA?'found':'unclear')+'</div>';
+                rh+='<div>'+(sig.hasBooking?'✅':'⚠️')+' Booking: '+(sig.hasBooking?'found':'missing')+'</div>';
+                rh+='<div>'+(sig.hasChat?'✅':'⚠️')+' Chat: '+(sig.hasChat?'found':'missing')+'</div>';
+                rh+='<div>'+(sig.hasForm?'✅':'⚠️')+' Forms: '+(sig.hasForm?'found':'missing')+'</div></div>';
+                document.getElementById('scanResults').innerHTML='<p style="font-weight:600;margin-bottom:8px">✅ Scan Results</p>'+rh;
+                document.getElementById('scanResults').style.display='block';
+                document.getElementById('form').style.display='block';
+                document.getElementById('form').scrollIntoView({behavior:'smooth',block:'start'});
+                st.innerHTML='✅ Scan complete!';
+              }).catch(function(){
+                st.innerHTML='⚠️ Website fetch blocked.';
+                var rh='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px">';
+                rh+='<div>'+(ps>=50?'✅':'❌')+' Speed: <strong>'+(ps?ps+'/100':'N/A')+'</strong></div>';
+                rh+='<div>'+(rc>0?'✅':'⚠️')+' Reviews: <strong>'+(rc>0?rc+' (⭐'+ar+')':'unknown')+'</strong></div>';
+                rh+='<div>'+(bn?'✅':'—')+' Business: <strong>'+(bn||'auto')+'</strong></div></div>';
+                document.getElementById('scanResults').innerHTML='<p style="font-weight:600;margin-bottom:8px">⚠️ Partial Results</p>'+rh;
+                document.getElementById('scanResults').style.display='block';
+                document.getElementById('form').style.display='block';
+                document.getElementById('form').scrollIntoView({behavior:'smooth',block:'start'});
+              });
+            }, 1500);
+          }).catch(function(){st.innerHTML='⚠️ Places API error.';});
+        }else{st.innerHTML='⚠️ No API key.';}
+      }, 1500);
+    }).catch(function(){st.innerHTML='⚠️ Speed check failed.';});
+  }, 1500);
 };
+
+function gv(n){var e=document.querySelector('input[name="'+n+'"]:checked');return e?e.value:null}
 
 document.getElementById('goBtn').onclick=function(){
 var ind=document.getElementById('ind').value||'other';var cv=parseFloat(document.getElementById('cv').value)||500;var eq=parseInt(document.getElementById('eq').value)||0;
 var bm={};if(ind==='healthcare'){bm.rt=85}else if(ind==='professional-services'){bm.rt=60}else if(ind==='construction'){bm.rt=45}else if(ind==='retail'){bm.rt=100}else if(ind==='hospitality'){bm.rt=120}else if(ind==='home-services'){bm.rt=50}else if(ind==='financial'){bm.rt=40}else{bm.rt=50}
-function gv(n){var e=document.querySelector('input[name="'+n+'"]:checked');return e?e.value:null}
 var v1=gv('v1'),v2=gv('v2'),v3=gv('v3'),v4=gv('v4');var vs=100;if(v1==='no')vs-=35;else if(v1==='unsure')vs-=20;if(v2==='no')vs-=30;else if(v2==='partial')vs-=20;if(v3==='never')vs-=20;else if(v3==='rarely')vs-=15;else if(v3==='quarterly')vs-=10;else if(v3==='monthly')vs-=5;vs=Math.max(0,Math.min(100,vs));
 var rv=document.getElementById('rev').value;var rc=0;if(rv==='1-10')rc=5;else if(rv==='11-25')rc=18;else if(rv==='26-50')rc=38;else if(rv==='51-100')rc=75;else if(rv==='100+')rc=120;
 var t1=gv('t1'),t2=gv('t2');var ts=100;var rr=rc/bm.rt;if(rr<0.2)ts-=35;else if(rr<0.5)ts-=20;else if(rr<0.8)ts-=10;else if(rr<1)ts-=5;if(t1==='no')ts-=15;else if(t1==='some')ts-=8;if(t2==='no')ts-=10;else if(t2==='some')ts-=5;ts=Math.max(0,Math.min(100,ts));
@@ -141,64 +176,22 @@ var p1=gv('p1'),p2=gv('p2');var ps=100;if(p1==='no')ps-=30;else if(p1==='informa
 var ov=Math.round(vs*0.25+ts*0.20+cs*0.20+rs*0.18+ps*0.17);
 var vg=100-vs,tg=100-ts,cg=100-cs,rg=100-rs,pg=100-ps;var gf=(100-ov)/100;var ul=0.5+gf*1.0;
 var pe=eq>0?Math.round(eq*(1+ul)):Math.round(20*(1+ul));var ae=Math.max(1,pe-(eq||20));var cc=Math.round((eq||20)*0.3);var pc=Math.round(pe*0.3);var ac=Math.max(1,pc-cc);var an=(ac*(cv||500)*12);
-var tg=vg+tg+cg+rg+pg||1;function pR(g){return Math.round(an*(g/tg))}
+var tgt=vg+tg+cg+rg+pg||1;function pR(g){return Math.round(an*(g/tgt))}
 var il=document.getElementById('ind').selectedOptions?.[0]?.text||'your business';
-document.getElementById('indOut').textContent=il;document.getElementById('scoreOut').textContent=ov;document.getElementById('oppOut').textContent='£'+an.toLocaleString();document.getElementById('barOut').style.width=ov+'%';document.getElementById('revOut').textContent='£'+an.toLocaleString();
+document.getElementById('indOut').textContent=il;document.getElementById('scoreOut').textContent=ov;document.getElementById('oppOut').textContent='£'+an.toLocaleString();document.getElementById('barOut').style.width=ov+'%';document.getElementById('revOut').textContent='£'+an.toLocaleString();document.getElementById('scScore').textContent=ov;document.getElementById('scOpp').textContent='£'+an.toLocaleString();
 var ga=[{n:'Visibility',i:'👁️',s:vs,r:pR(vg),sv:vg,c:vg>=30?'red':vg>=20?'orange':vg>=10?'yellow':'green'},{n:'Trust',i:'🤝',s:ts,r:pR(tg),sv:tg,c:tg>=30?'red':tg>=20?'orange':tg>=10?'yellow':'green'},{n:'Conversion',i:'🔄',s:cs,r:pR(cg),sv:cg,c:cg>=30?'red':cg>=20?'orange':cg>=10?'yellow':'green'},{n:'Retention',i:'❤️',s:rs,r:pR(rg),sv:rg,c:rg>=30?'red':rg>=20?'orange':rg>=10?'yellow':'green'},{n:'Performance',i:'📊',s:ps,r:pR(pg),sv:pg,c:pg>=30?'red':pg>=20?'orange':pg>=10?'yellow':'green'}];ga.sort(function(a,b){return b.sv-a.sv});
-document.getElementById('pillarsOut').innerHTML=ga.map(function(g){return '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><span>'+g.i+'</span><span style="font-size:13px;flex:1;font-weight:500">'+g.n+'</span><div style="flex:1;height:8px;background:#d4d0cb;border-radius:4px;overflow:hidden"><div style="height:100%;border-radius:4px;background:'+(g.c==='red'?'#dc2626':g.c==='orange'?'#ea580c':g.c==='yellow'?'#ca8a04':'#16a34a')+';width:'+g.s+'%"></div></div><span style="font-weight:700;font-size:13px;width:28px;text-align:right">'+g.s+'</span></div>';}).join('');
-document.getElementById('gapsOut').innerHTML=ga.map(function(g){return '<div style="display:flex;justify-content:space-between;padding:8px 12px;border-radius:8px;border:1px solid;margin-bottom:4px;background:'+(g.c==='red'?'#fef2f2':g.c==='orange'?'#fff7ed':g.c==='yellow'?'#fefce8':'#f0fdf4')+';border-color:'+(g.c==='red'?'#fecaca':g.c==='orange'?'#fed7aa':g.c==='yellow'?'#fde68a':'#bbf7d0')+'"><span style="font-weight:600;font-size:13px">'+g.i+' '+g.n+'</span><span style="font-weight:700;font-size:13px">£'+g.r.toLocaleString()+'/yr</span></div>';}).join('');
-var si=[];if(rc<bm.rt){si.push('<b>⚠️ Reviews below benchmark</b><br><span style="font-size:12px;color:#71717a">'+il+' businesses average '+bm.rt+'+ reviews. You have '+(rc||'none')+'.</span>')}
-if(c3==='no'){si.push('<b>📋 No online booking</b><br><span style="font-size:12px;color:#71717a">40% of bookings happen outside hours.</span>')}
-if(c1==='no'||c1==='unclear'){si.push('<b>🎯 No clear CTA</b><br><span style="font-size:12px;color:#71717a">Sites with clear CTAs convert 2-3x more.</span>')}
-if(v3==='never'||v3==='rarely'||v3==='quarterly'){si.push('<b>📝 Low content frequency</b><br><span style="font-size:12px;color:#71717a">Weekly publishers get 4-5x more traffic.</span>')}
-if(r1==='no'){si.push('<b>📧 No email marketing</b><br><span style="font-size:12px;color:#71717a">Email generates £36 per £1 spent.</span>')}
-document.getElementById('signalsOut').innerHTML=si.slice(0,5).map(function(s){return '<div style="padding:10px;border-radius:8px;background:#fff;border:1px solid #e4e4e7;margin-bottom:6px">'+s+'</div>';}).join('')||'<p style="font-size:13px;color:#71717a">No major issues detected.</p>';
+document.getElementById('pillarsOut').innerHTML=ga.map(function(g){return '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span>'+g.i+'</span><span style="font-size:13px;font-weight:500;flex:1">'+g.n+'</span><div style="flex:1;height:8px;background:#d4d0cb;border-radius:4px;overflow:hidden"><div style="height:100%;border-radius:4px;background:'+(g.c==='red'?'#dc2626':g.c==='orange'?'#ea580c':g.c==='yellow'?'#ca8a04':'#16a34a')+';width:'+g.s+'%"></div></div><span style="font-weight:700;font-size:13px;width:28px;text-align:right">'+g.s+'</span></div>';}).join('');
+document.getElementById('gapsOut').innerHTML=ga.map(function(g){return '<div style="display:flex;justify-content:space-between;padding:10px 14px;border-radius:8px;border:1px solid;margin-bottom:6px;font-size:13px;background:'+(g.c==='red'?'#fef2f2':g.c==='orange'?'#fff7ed':g.c==='yellow'?'#fefce8':'#f0fdf4')+';border-color:'+(g.c==='red'?'#fecaca':g.c==='orange'?'#fed7aa':g.c==='yellow'?'#fde68a':'#bbf7d0')+'"><span style="font-weight:600">'+g.i+' '+g.n+'</span><span style="font-weight:700;color:'+(g.c==='red'?'#dc2626':g.c==='orange'?'#ea580c':g.c==='yellow'?'#ca8a04':'#16a34a')+'">£'+g.r.toLocaleString()+'/yr</span></div>';}).join('');
+var si=[];if(rc<bm.rt){si.push('<div style="padding:12px;border-radius:8px;background:#fff;border:1px solid #e4e4e7;margin-bottom:8px"><b>⚠️ Reviews below benchmark</b><br><span style="font-size:12px;color:#71717a">'+il+' businesses average '+bm.rt+'+ reviews. You have '+(rc||'none')+'.</span></div>')}
+if(c3==='no'){si.push('<div style="padding:12px;border-radius:8px;background:#fff;border:1px solid #e4e4e7;margin-bottom:8px"><b>📋 No online booking</b><br><span style="font-size:12px;color:#71717a">40% of bookings happen outside hours.</span></div>')}
+if(c1==='no'||c1==='unclear'){si.push('<div style="padding:12px;border-radius:8px;background:#fff;border:1px solid #e4e4e7;margin-bottom:8px"><b>🎯 No clear CTA</b><br><span style="font-size:12px;color:#71717a">Sites with clear CTAs convert 2-3x more.</span></div>')}
+if(v3==='never'||v3==='rarely'||v3==='quarterly'){si.push('<div style="padding:12px;border-radius:8px;background:#fff;border:1px solid #e4e4e7;margin-bottom:8px"><b>📝 Low content frequency</b><br><span style="font-size:12px;color:#71717a">Weekly publishers get 4-5x more traffic.</span></div>')}
+if(r1==='no'){si.push('<div style="padding:12px;border-radius:8px;background:#fff;border:1px solid #e4e4e7;margin-bottom:8px"><b>📧 No email marketing</b><br><span style="font-size:12px;color:#71717a">Email generates £36 per £1 spent.</span></div>')}
+document.getElementById('signalsOut').innerHTML=si.slice(0,5).join('')||'<p style="font-size:13px;color:#888">No major issues detected.</p>';
+document.getElementById('gapsOut').innerHTML;document.getElementById('scGaps').innerHTML=document.getElementById('gapsOut').innerHTML;document.getElementById('scSignals').innerHTML=document.getElementById('signalsOut').innerHTML;
+var ga2=document.querySelectorAll('#gapsOut .gap-row');if(ga2.length>0){var tg=ga2[0].querySelector('.gap-name').textContent;var tv=ga2[0].querySelector('.gap-value').textContent;document.getElementById('scSummary').textContent='Your biggest gap is '+tg+' worth '+tv+'. Closing this gap alone could transform your business.';}
 document.getElementById('out').style.display='block';document.getElementById('out').scrollIntoView({behavior:'smooth',block:'start'});
 };
-
-
-document.getElementById('scorecardBtn').onclick=function(){
-var email=document.getElementById('scorecardEmail').value.trim();
-if(!email){alert('Please enter your email');return;}
-var score=document.getElementById('scoreOut').textContent;
-var opp=document.getElementById('oppOut').textContent;
-var bn=document.getElementById('bn').value||'Your Business';
-var w=window.open('','_blank');
-w.document.write('<html><head><title>Growth Gap Scorecard - '+bn+'</title>');
-w.document.write('<style>body{font-family:sans-serif;padding:40px;max-width:700px;margin:0 auto;line-height:1.6;color:#333}h1{color:#1a3a2e;font-size:32px}h2{color:#2d5a48;border-bottom:2px solid #f0b55d;padding-bottom:8px}.score{font-size:64px;font-weight:700;color:#1a3a2e;text-align:center}.opp{font-size:36px;font-weight:700;color:#2d5a48;text-align:center}.box{background:#f5f3ef;border-radius:8px;padding:16px;margin-bottom:16px}.cta{background:#1a3a2e;color:#fff;padding:24px;border-radius:12px;text-align:center;margin-top:32px}.cta a{color:#f0b55d}.footer{text-align:center;color:#888;font-size:12px;margin-top:40px}</style></head><body>');
-w.document.write('<h1>Growth Gap Scorecard&trade;</h1>');
-w.document.write('<p style="color:#888">Prepared for <strong>'+bn+'</strong></p>');
-w.document.write('<div class="score">'+score+'<span style="font-size:24px;color:#aaa">/100</span></div>');
-w.document.write('<p style="text-align:center;color:#888">Growth Score</p>');
-w.document.write('<div class="opp">'+opp+'</div>');
-w.document.write('<p style="text-align:center;color:#888">Estimated Annual Opportunity</p>');
-w.document.write('<h2>Your Growth Gaps</h2>');
-w.document.write(document.getElementById('gapsOut').innerHTML);
-w.document.write('<h2>What We Found</h2>');
-w.document.write(document.getElementById('signalsOut').innerHTML);
-w.document.write('<div class="cta"><h3 style="color:#fff">Ready to Close Your Growth Gap?</h3><p>Book your free 30-minute Growth Gap Review&trade; today.</p><p style="margin-top:16px"><a href="mailto:hello@mrgrowthpartners.com">hello@mrgrowthpartners.com</a></p></div>');
-w.document.write('<div class="footer"><p>&copy; 2025 MR Growth Partners. Growth Gap Scorecard&trade; is a trademark.</p></div>');
-w.document.write('</body></html>');
-w.document.close();
-};
-
-// Update scorecard section
-var scInterval = setInterval(function(){
-  var sc = document.getElementById('scoreOut');
-  var op = document.getElementById('oppOut');
-  if(sc && sc.textContent && sc.textContent !== '--'){
-    document.getElementById('scScore').textContent = sc.textContent;
-    document.getElementById('scOpp').textContent = op.textContent;
-    document.getElementById('scGaps').innerHTML = document.getElementById('gapsOut').innerHTML;
-    document.getElementById('scSignals').innerHTML = document.getElementById('signalsOut').innerHTML;
-    var ga = document.querySelectorAll('#gapsOut .gap-row');
-    if(ga.length > 0){
-      var topGap = ga[0].querySelector('.gap-name').textContent;
-      var topVal = ga[0].querySelector('.gap-value').textContent;
-      document.getElementById('scSummary').textContent = 'Your biggest gap is ' + topGap + ' worth ' + topVal + '. Closing this gap alone could transform your business. Our Growth Gap Review™ will validate these findings and build a prioritised action plan.';
-    }
-    clearInterval(scInterval);
-  }
-}, 500);</script>
+</script>
 </body>
 </html>
