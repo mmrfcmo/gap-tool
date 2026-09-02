@@ -95,7 +95,7 @@ body{background:#f8f6f3;color:#18181b;-webkit-font-smoothing:antialiased}
 
 <script>
 var ak='AIzaSyDHTr05tzOKKvFUWNIV90dMFuIuYWr0wiY';
-document.getElementById('scanBtn').onclick=function delay(ms){return new Promise(function(r){setTimeout(r,ms)})}function(){
+document.getElementById('scanBtn').onclick=function(){function delay(ms){return new Promise(function(r){setTimeout(r,ms)})}
 var cu=document.getElementById('su').value.trim();
 if(!cu){document.getElementById('status').textContent='Please enter a website name';return}
 document.getElementById('scanResults').style.display='none';document.getElementById('form').style.display='none';
