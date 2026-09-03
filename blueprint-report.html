@@ -120,6 +120,25 @@ Generating your personalised Growth Blueprint...
 </div>
 
 <script>
+
+// Read data from URL parameters (shared link)
+(function(){
+var params = new URLSearchParams(window.location.search);
+if(params.size > 0 && params.get('bn')){
+  document.getElementById('bn').value = params.get('bn') || '';
+  document.getElementById('ind').value = params.get('ind') || '';
+  document.getElementById('cv').value = params.get('cv') || '';
+  document.getElementById('eq').value = params.get('eq') || '';
+  document.getElementById('rev').value = params.get('rev') || '';
+  document.getElementById('rat').value = params.get('rat') || '';
+  var radios = ['v1','v2','v3','v4','c1','c2','c3','c4','r1','r2','p1','p2','t1','t2'];
+  radios.forEach(function(r){
+    var v = params.get(r);
+    if(v) { var el = document.querySelector('input[name="'+r+'"][value="'+v+'"]'); if(el) el.checked = true; }
+  });
+}
+})();
+
 (function(){
 function gv(n){var e=document.querySelector('input[name="'+n+'"]:checked');return e?e.value:null}
 
