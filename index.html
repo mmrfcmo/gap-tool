@@ -147,7 +147,7 @@ setTimeout(function(){
 var ps=0;
 fetch('https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://'+cu+'&category=performance&strategy=mobile').then(function(r){return r.json()}).then(function(d){
 if(d&&d.lighthouseResult&&d.lighthouseResult.categories&&d.lighthouseResult.categories.performance)ps=Math.round(d.lighthouseResult.categories.performance.score*100);
-st.innerHTML='<span style="color:#16a34a">✅</span> Speed: '+ps+'/100';
+st.innerHTML='<span style="color:#16a34a">✅</span> Speed: '+(ps>0?ps+'/100':'N/A')+';
 setTimeout(function(){st.innerHTML='<span style="color:#f0b55d">⏳</span> Fetching Google reviews...';
 if(ak&&ak.length>10){
 fetch('https://places.googleapis.com/v1/places:searchText?key='+ak,{method:'POST',headers:{'Content-Type':'application/json','X-Goog-FieldMask':'places.displayName,places.userRatingCount,places.rating,places.websiteUri'},body:JSON.stringify({textQuery:cu,maxResultCount:1})}).then(function(r){return r.json()}).then(function(pd){
@@ -167,7 +167,7 @@ if(sig.hasBooking)document.querySelector('input[name="c3"][value="yes"]').checke
 if(sig.hasChat)document.querySelector('input[name="c4"][value="yes"]').checked=true;else document.querySelector('input[name="c4"][value="no"]').checked=true;
 if(sig.hasForm)document.querySelector('input[name="c2"][value="all"]').checked=true;else document.querySelector('input[name="c2"][value="some"]').checked=true;
 var rh='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px">';
-rh+='<div>'+(ps>=50?'✅':'❌')+' Speed: <strong>'+(ps?ps+'/100':'N/A')+'</strong></div>';
+rh+='<div>'+(ps>=50?'✅':'❌')+' Speed: <strong>'+(ps>0?ps+'/100':'N/A')+'</strong></div>';
 rh+='<div>'+(rc>0?'✅':'⚠️')+' Reviews: <strong>'+(rc>0?rc+' (⭐'+ar+')':'unknown')+'</strong></div>';
 rh+='<div>'+(bn?'✅':'—')+' Business: <strong>'+(bn||'auto')+'</strong></div>';
 rh+='<div>'+(sig.hasCTA?'✅':'⚠️')+' CTA: '+(sig.hasCTA?'found':'unclear')+'</div>';
@@ -192,7 +192,7 @@ setTimeout(function(){document.getElementById('scanResults').style.display='bloc
 }).catch(function(){st.innerHTML='<span style="color:#ca8a04">⚠️</span> Reviews unavailable. Select manually.';});
 }else{st.innerHTML='<span style="color:#ca8a04">⚠️</span> No API key.';}
 },1500);
-}).catch(function(){st.innerHTML='<span style="color:#ca8a04">⚠️</span> Speed check unavailable (quota limit). Moving to reviews...';});
+}).catch(function(){st.innerHTML='<span style="color:#ca8a04">⚠️</span> Speed check unavailable (N/A). Moving to reviews...';});
 },1500);
 },1500);
 },1500);
