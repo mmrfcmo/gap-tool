@@ -160,10 +160,10 @@ document.getElementById('form').scrollIntoView({behavior:'smooth',block:'start'}
 },1500);
 },1500);
 },1500);
-}).catch(function(){st.innerHTML='<span style="color:#ca8a04">⚠️</span> Places API error.';});
+}).catch(function(){st.innerHTML='<span style="color:#ca8a04">⚠️</span> Reviews lookup unavailable. Please select manually.';});
 }else{st.innerHTML='<span style="color:#ca8a04">⚠️</span> No API key.';}
 },1500);
-}).catch(function(){st.innerHTML='<span style="color:#ca8a04">⚠️</span> Speed check failed.';});
+}).catch(function(){st.innerHTML='<span style="color:#ca8a04">⚠️</span> Speed check unavailable (quota limit). Moving to reviews...';});
 },1500);
 },1500);
 },1500);
