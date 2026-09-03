@@ -151,6 +151,16 @@ if(r1==='no'){si.push('<b>📧 No email marketing</b><br><span style="font-size:
 document.getElementById('signalsOut').innerHTML=si.slice(0,5).map(function(s){return '<div style="padding:10px;border-radius:8px;background:#fff;border:1px solid #e4e4e7;margin-bottom:6px">'+s+'</div>';}).join('')||'<p style="font-size:13px;color:#71717a">No major issues detected.</p>';
 document.getElementById('out').style.display='block';document.getElementById('out').scrollIntoView({behavior:'smooth',block:'start'});
 };
-</script>
+
+
+document.getElementById('reportLinkBtn').onclick=function(){
+var params = new URLSearchParams();
+['bn','ind','cv','eq','rev','rat'].forEach(function(f){var el=document.getElementById(f);if(el)params.set(f,el.value);});
+['v1','v2','v3','v4','c1','c2','c3','c4','r1','r2','p1','p2','t1','t2'].forEach(function(r){var el=document.querySelector('input[name="'+r+'"]:checked');if(el)params.set(r,el.value);});
+var url = 'https://mmrfcmo.github.io/gap-tool/blueprint-report.html?' + params.toString();
+document.getElementById('reportLinkOut').innerHTML = '<a href="'+url+'" target="_blank" style="color:#f0b55d;font-weight:600">📄 Open Report →</a><br><span style="font-size:11px;color:#888">Copy this link to share with anyone</span>';
+document.getElementById('reportLinkOut').style.display = 'block';
+navigator.clipboard.writeText(url).then(function(){document.getElementById('reportLinkOut').innerHTML = '✅ Link copied!<br><a href="'+url+'" target="_blank" style="color:#f0b55d;font-weight:600">📄 Open Report →</a>';}).catch(function(){});
+};</script>
 </body>
 </html>
