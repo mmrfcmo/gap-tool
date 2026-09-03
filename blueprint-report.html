@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Growth Blueprint Report — MR Growth Partners</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f5f3ef;color:#1a1a1a;-webkit-font-smoothing:antialiased;line-height:1.6}
+.page{max-width:800px;margin:0 auto;padding:40px 24px}
+.cover{background:linear-gradient(135deg,#1a3a2e 0%,#2d5a48 40%,#3a7a5e 100%);color:#fff;padding:60px 40px;border-radius:16px;margin-bottom:32px;text-align:center}
+.cover h1{font-size:36px;font-weight:800;letter-spacing:-0.02em;margin-bottom:8px}
+.cover .subtitle{font-size:18px;color:#c4d0cb;margin-bottom:24px}
+.cover .meta{font-size:14px;color:#8aaf9f;margin-top:16px}
+.cover .meta span{display:block;margin-bottom:4px}
+.cover .score-circle{width:120px;height:120px;border-radius:50%;border:4px solid #f0b55d;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:48px;font-weight:800}
+.section{margin-bottom:32px}
+.section h2{font-size:22px;font-weight:700;color:#1a3a2e;border-bottom:2px solid #f0b55d;padding-bottom:8px;margin-bottom:16px}
+.card{background:#fff;border-radius:12px;padding:24px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.card h3{font-size:16px;font-weight:600;margin-bottom:8px;color:#2d5a48}
+.card .value{font-size:32px;font-weight:700;color:#1a3a2e}
+.card .label{font-size:12px;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.pillar{display:flex;align-items:center;gap:12px;padding:14px;background:#f8f7f4;border-radius:10px;margin-bottom:8px}
+.pillar .icon{font-size:20px;width:32px;text-align:center}
+.pillar .name{font-weight:600;flex:1;font-size:14px}
+.pillar-bar{flex:1;height:10px;background:#d4d0cb;border-radius:5px;overflow:hidden}
+.pillar-fill{height:100%;border-radius:5px}
+.pillar .score{font-weight:700;font-size:16px;width:30px;text-align:right}
+.gap-item{display:flex;justify-content:space-between;align-items:center;padding:16px;border-radius:10px;border:1px solid;margin-bottom:8px;font-size:14px}
+.gap-item.high{background:#fef2f2;border-color:#fecaca;color:#dc2626}
+.gap-item.med{background:#fff7ed;border-color:#fed7aa;color:#ea580c}
+.gap-item.low{background:#fefce8;border-color:#fde68a;color:#ca8a04}
+.gap-item.good{background:#f0fdf4;border-color:#bbf7d0;color:#16a34a}
+.gap-item .gname{font-weight:600}
+.gap-item .gvalue{font-weight:700}
+.action-table{width:100%;border-collapse:collapse;font-size:14px}
+.action-table th{text-align:left;padding:10px 14px;background:#f8f7f4;font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:1px;color:#666;border-bottom:2px solid #e4e0db}
+.action-table td{padding:10px 14px;border-bottom:1px solid #e4e0db}
+.action-table .priority{font-weight:600;color:#dc2626}
+.action-table .priority.med{color:#ea580c}
+.action-table .priority.low{color:#ca8a04}
+.recommendation{background:#1a3a2e;border-radius:12px;padding:32px;color:#fff;margin-bottom:32px;text-align:center}
+.recommendation h2{color:#f0b55d;font-size:18px;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;border:none;padding:0}
+.recommendation .pkg-name{font-size:28px;font-weight:700;margin-bottom:4px}
+.recommendation .pkg-price{font-size:16px;color:#8aaf9f;margin-bottom:16px}
+.recommendation .pkg-desc{font-size:15px;color:#c4d0cb;line-height:1.7;max-width:500px;margin:0 auto 20px}
+.recommendation .action-btn{display:inline-block;background:#f0b55d;color:#1a1a1a;padding:14px 32px;border-radius:10px;font-weight:700;font-size:16px;text-decoration:none;margin-top:8px}
+.footer{text-align:center;color:#888;font-size:12px;padding:32px 0;border-top:1px solid #e4e0db}
+@media (max-width:600px){.grid-2,.grid-3{grid-template-columns:1fr}.page{padding:20px 12px}.cover{padding:40px 20px}.cover h1{font-size:28px}}
+</style>
+</head>
+<body>
+
+<div class="page" id="reportContent">
+<div class="cover">
+<div class="score-circle" id="reportScore">--</div>
+<h1>Growth Blueprint™</h1>
+<p class="subtitle">Prepared exclusively for <span id="reportCompany" style="font-weight:700;color:#fff">your business</span></p>
+<div class="meta">
+<span>Industry: <span id="reportIndustry">--</span></span>
+<span>Report Date: <span id="reportDate">--</span></span>
+<span>Reference: <span id="reportRef">--</span></span>
+</div>
+</div>
+
+<div class="section">
+<h2>Executive Summary</h2>
+<div class="grid-2">
+<div class="card">
+<p class="label">Growth Score</p>
+<p class="value"><span id="execScore">--</span><span style="font-size:16px;color:#888">/100</span></p>
+</div>
+<div class="card">
+<p class="label">Estimated Annual Opportunity</p>
+<p class="value" style="color:#f0b55d"><span id="execOpp">£--</span></p>
+</div>
+</div>
+<div class="card" id="execSummary" style="font-size:14px;color:#555;line-height:1.7">
+Generating your personalised Growth Blueprint...
+</div>
+</div>
+
+<div class="section">
+<h2>Five Pillar Analysis</h2>
+<div id="pillarSection"></div>
+</div>
+
+<div class="section">
+<h2>Identified Growth Gaps</h2>
+<div id="gapSection"></div>
+</div>
+
+<div class="section">
+<h2>Hidden Signals — What We Discovered</h2>
+<div id="signalSection"></div>
+</div>
+
+<div class="section">
+<h2>Priority Action Plan</h2>
+<table class="action-table" id="actionTable">
+<thead><tr><th>#</th><th>Action</th><th>Impact</th><th>Timeline</th></tr></thead>
+<tbody id="actionBody"></tbody>
+</table>
+</div>
+
+<div class="recommendation">
+<h2>Recommended Package</h2>
+<p class="pkg-name" id="recPkg">--</p>
+<p class="pkg-price" id="recPrice">--</p>
+<p class="pkg-desc" id="recDesc">--</p>
+<a class="action-btn" href="mailto:hello@mrgrowthpartners.com">Book Your Growth Gap Review™ →</a>
+</div>
+
+<div class="footer">
+<p>© 2025 MR Growth Partners. Growth Blueprint™ is a trademark.</p>
+<p>This report is confidential and prepared for the named business only.</p>
+</div>
+</div>
+
+<script>
+(function(){
+function gv(n){var e=document.querySelector('input[name="'+n+'"]:checked');return e?e.value:null}
+
+function generateReport(){
+var bn=document.getElementById('bn').value||'your business';
+var ind=document.getElementById('ind').value||'other';
+var cv=parseFloat(document.getElementById('cv').value)||500;
+var eq=parseInt(document.getElementById('eq').value)||0;
+
+var bm={};if(ind==='healthcare'){bm.rt=85}else if(ind==='professional-services'){bm.rt=60}else if(ind==='construction'){bm.rt=45}else if(ind==='retail'){bm.rt=100}else if(ind==='hospitality'){bm.rt=120}else if(ind==='home-services'){bm.rt=50}else if(ind==='financial'){bm.rt=40}else{bm.rt=50}
+
+var v1=gv('v1'),v2=gv('v2'),v3=gv('v3'),v4=gv('v4');
+var vs=100;if(v1==='no')vs-=35;else if(v1==='unsure')vs-=20;if(v2==='no')vs-=30;else if(v2==='partial')vs-=20;if(v3==='never')vs-=20;else if(v3==='rarely')vs-=15;else if(v3==='quarterly')vs-=10;else if(v3==='monthly')vs-=5;vs=Math.max(0,Math.min(100,vs));
+
+var rv=document.getElementById('rev').value;var rc=0;if(rv==='1-10')rc=5;else if(rv==='11-25')rc=18;else if(rv==='26-50')rc=38;else if(rv==='51-100')rc=75;else if(rv==='100+')rc=120;
+var t1=gv('t1'),t2=gv('t2');var ts=100;var rr=rc/bm.rt;if(rr<0.2)ts-=35;else if(rr<0.5)ts-=20;else if(rr<0.8)ts-=10;else if(rr<1)ts-=5;if(t1==='no')ts-=15;else if(t1==='some')ts-=8;if(t2==='no')ts-=10;else if(t2==='some')ts-=5;ts=Math.max(0,Math.min(100,ts));
+
+var c1=gv('c1'),c2=gv('c2'),c3=gv('c3'),c4=gv('c4');var cs=100;if(c1==='no')cs-=30;else if(c1==='unclear')cs-=15;if(c2==='no')cs-=25;else if(c2==='some')cs-=12;if(c3==='no')cs-=25;if(c4==='no')cs-=10;cs=Math.max(0,Math.min(100,cs));
+
+var r1=gv('r1'),r2=gv('r2');var rs=100;if(r1==='no')rs-=30;else if(r1==='occasional')rs-=15;if(r2==='no')rs-=25;rs=Math.max(0,Math.min(100,rs));
+
+var p1=gv('p1'),p2=gv('p2');var ps=100;if(p1==='no')ps-=30;else if(p1==='informal')ps-=15;if(p2==='no')ps-=20;else if(p2==='occasional')ps-=10;ps=Math.max(0,Math.min(100,ps));
+
+var ov=Math.round(vs*0.25+ts*0.20+cs*0.20+rs*0.18+ps*0.17);
+var vg=100-vs,tg=100-ts,cg=100-cs,rg=100-rs,pg=100-ps;
+var gf=(100-ov)/100;var ul=0.5+gf*1.0;
+var pe=eq>0?Math.round(eq*(1+ul)):Math.round(20*(1+ul));var ae=Math.max(1,pe-(eq||20));
+var cc=Math.round((eq||20)*0.3);var pc=Math.round(pe*0.3);var ac=Math.max(1,pc-cc);var an=(ac*(cv||500)*12);
+var totg=vg+tg+cg+rg+pg||1;function pR(g){return Math.round(an*(g/totg))}
+
+var il=document.getElementById('ind').selectedOptions?.[0]?.text||'your business';
+var now=new Date();
+var dateStr=now.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+var ref='MRGP-BP-'+now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0')+'-'+String(Math.floor(Math.random()*1000)).padStart(3,'0');
+
+document.getElementById('reportCompany').textContent=bn;
+document.getElementById('reportIndustry').textContent=il;
+document.getElementById('reportDate').textContent=dateStr;
+document.getElementById('reportRef').textContent=ref;
+document.getElementById('reportScore').textContent=ov;
+document.getElementById('execScore').textContent=ov;
+document.getElementById('execOpp').textContent='£'+an.toLocaleString();
+
+var gaps=[{n:'Visibility',i:'👁️',s:vs,r:pR(vg),sv:vg,c:vg>=30?'high':vg>=20?'med':vg>=10?'low':'good'},{n:'Trust',i:'🤝',s:ts,r:pR(tg),sv:tg,c:tg>=30?'high':tg>=20?'med':tg>=10?'low':'good'},{n:'Conversion',i:'🔄',s:cs,r:pR(cg),sv:cg,c:cg>=30?'high':cg>=20?'med':cg>=10?'low':'good'},{n:'Retention',i:'❤️',s:rs,r:pR(rg),sv:rg,c:rg>=30?'high':rg>=20?'med':rg>=10?'low':'good'},{n:'Performance',i:'📊',s:ps,r:pR(pg),sv:pg,c:pg>=30?'high':pg>=20?'med':pg>=10?'low':'good'}];
+gaps.sort(function(a,b){return b.sv-a.sv});
+
+document.getElementById('pillarSection').innerHTML=gaps.map(function(g){return '<div class="pillar"><span class="icon">'+g.i+'</span><span class="name">'+g.n+'</span><div class="pillar-bar"><div class="pillar-fill" style="width:'+g.s+'%;background:'+(g.c==='high'?'#dc2626':g.c==='med'?'#ea580c':g.c==='low'?'#ca8a04':'#16a34a')+'"></div></div><span class="score" style="color:'+(g.c==='high'?'#dc2626':g.c==='med'?'#ea580c':g.c==='low'?'#ca8a04':'#16a34a')+'">'+g.s+'</span></div>';}).join('');
+
+document.getElementById('gapSection').innerHTML=gaps.map(function(g){return '<div class="gap-item '+g.c+'"><span class="gname">'+g.i+' '+g.n+' Gap</span><span class="gvalue">£'+g.r.toLocaleString()+'/yr</span></div>';}).join('');
+
+var sigs=[];
+if(rc<bm.rt){sigs.push('<div style="padding:12px;background:#fff;border:1px solid #e4e4e7;border-radius:8px;margin-bottom:8px"><b>⚠️ Reviews below benchmark</b><br><span style="font-size:13px;color:#666">'+il+' businesses average '+bm.rt+'+ reviews. You have '+(rc||'none')+'.</span></div>')}
+if(c3==='no'){sigs.push('<div style="padding:12px;background:#fff;border:1px solid #e4e4e7;border-radius:8px;margin-bottom:8px"><b>📋 No online booking</b><br><span style="font-size:13px;color:#666">40% of bookings happen outside hours.</span></div>')}
+if(c1==='no'||c1==='unclear'){sigs.push('<div style="padding:12px;background:#fff;border:1px solid #e4e4e7;border-radius:8px;margin-bottom:8px"><b>🎯 No clear CTA</b><br><span style="font-size:13px;color:#666">Sites with clear CTAs convert 2-3x more.</span></div>')}
+if(v3==='never'||v3==='rarely'||v3==='quarterly'){sigs.push('<div style="padding:12px;background:#fff;border:1px solid #e4e4e7;border-radius:8px;margin-bottom:8px"><b>📝 Low content frequency</b><br><span style="font-size:13px;color:#666">Weekly publishers get 4-5x more traffic.</span></div>')}
+if(r1==='no'){sigs.push('<div style="padding:12px;background:#fff;border:1px solid #e4e4e7;border-radius:8px;margin-bottom:8px"><b>📧 No email marketing</b><br><span style="font-size:13px;color:#666">Email generates £36 per £1 spent.</span></div>')}
+document.getElementById('signalSection').innerHTML=sigs.join('')||'<p style="color:#888">No major issues detected.</p>';
+document.getElementById('execSummary').innerHTML='Based on our analysis, <strong>'+bn+'</strong> has a Growth Score of <strong>'+ov+'/100</strong> with an estimated annual opportunity of <strong>£'+an.toLocaleString()+'</strong>. The primary Growth Gap is in <strong>'+gaps[0].n+'</strong> (score: '+gaps[0].s+'/100), representing £'+gaps[0].r.toLocaleString()+'/year in potential revenue. Closing all identified gaps could yield approximately <strong>'+ae+' additional enquiries</strong> and <strong>'+ac+' new customers per month</strong>.';
+
+// Actions
+var actions=[];
+if(vs<80){actions.push({a:'Complete Google Business Profile',gap:'Visibility',impact:'High',time:'Week 1'})}
+if(rc<bm.rt){actions.push({a:'Implement review generation system',gap:'Trust',impact:'High',time:'Week 1-2'})}
+if(c3==='no'){actions.push({a:'Add online booking/appointment system',gap:'Conversion',impact:'High',time:'Week 2'})}
+if(c1==='no'||c1==='unclear'){actions.push({a:'Add clear CTA above the fold',gap:'Conversion',impact:'High',time:'Week 1'})}
+if(c2==='no'||c2==='some'){actions.push({a:'Add lead capture forms to all key pages',gap:'Conversion',impact:'Medium',time:'Week 2'})}
+if(v3==='never'||v3==='rarely'||v3==='quarterly'){actions.push({a:'Increase content to weekly publishing',gap:'Visibility',impact:'Medium',time:'Week 2-3'})}
+if(r1==='no'){actions.push({a:'Set up email marketing automation',gap:'Retention',impact:'Medium',time:'Week 3'})}
+if(r2==='no'){actions.push({a:'Create customer referral programme',gap:'Retention',impact:'Medium',time:'Week 3-4'})}
+if(p1==='no'||p1==='informal'){actions.push({a:'Install KPI dashboard and monthly reporting',gap:'Performance',impact:'Low',time:'Week 4'})}
+if(v4==='no'){actions.push({a:'Test paid advertising campaigns',gap:'Visibility',impact:'Low',time:'Week 4+'})}
+
+document.getElementById('actionBody').innerHTML=actions.map(function(a,i){return '<tr><td>'+(i+1)+'</td><td><strong>'+a.a+'</strong><br><span style="font-size:12px;color:#888">'+a.gap+'</span></td><td class="priority'+(a.impact==='High'?'':a.impact==='Medium'?' med':' low')+'">'+a.impact+'</td><td>'+a.time+'</td></tr>';}).join('');
+
+// Recommendation
+var recPkg='',recPrice='',recDesc='';
+if(ov<40){recPkg='🚀 Growth Accelerator';recPrice='£995/month + £2,500 setup';recDesc='Your Growth Score indicates significant gaps across multiple pillars. The Growth Accelerator provides a comprehensive marketing department to close the £'+an.toLocaleString()+' opportunity. Includes weekly content, social media management, email automation, and quarterly strategy sessions.'}
+else if(ov<70){recPkg='🌱 Foundation';recPrice='£499/month + £1,500 setup';recDesc='Your business has solid foundations but clear gaps in specific areas, particularly '+gaps[0].n+'. The Foundation package addresses your highest-priority gaps first, with website optimisation, review management, monthly content, and performance reporting.'}
+else{recPkg='🏆 Growth Partnership';recPrice='£1,995/month + £3,500 setup';recDesc='Your business is performing well but has untapped potential. The Growth Partnership provides strategic firepower to optimise and scale, with dedicated management, paid ad management, conversion optimisation, and competitor monitoring.'}
+document.getElementById('recPkg').textContent=recPkg;
+document.getElementById('recPrice').textContent=recPrice;
+document.getElementById('recDesc').textContent=recDesc;
+}
+
+// Try to generate report
+generateReport();
+})();
+</script>
+</body>
+</html>
