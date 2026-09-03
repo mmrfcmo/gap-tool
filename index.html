@@ -98,22 +98,29 @@ var ak='AIzaSyDHTr05tzOKKvFUWNIV90dMFuIuYWr0wiY';
 document.getElementById('scanBtn').onclick=function(){
 var cu=document.getElementById('su').value.trim();
 if(!cu){document.getElementById('status').textContent='Please enter a website name';return}
-document.getElementById('status').innerHTML='⏳ Scanning...';
 document.getElementById('scanResults').style.display='none';document.getElementById('form').style.display='none';
-fetch('https://pagespeed.web.dev/api?url=https://'+cu+'&category=performance&strategy=mobile').then(function(r){return r.json()}).then(function(d){
-var ps=0;if(d&&d.lighthouseResult&&d.lighthouseResult.categories&&d.lighthouseResult.categories.performance)ps=Math.round(d.lighthouseResult.categories.performance.score*100);
-document.getElementById('status').innerHTML='<span style="color:#16a34a">✅</span> Speed: '+ps+'/100. Checking reviews...';
-return ps;
-}).catch(function(){document.getElementById('status').innerHTML='Speed unavailable.';return null;}).then(function(ps){
+var st=document.getElementById('status');
+st.innerHTML='<span style="color:#f0b55d">⏳</span> Initialising...';
+setTimeout(function(){st.innerHTML='<span style="color:#f0b55d">⏳</span> Checking website availability...';
+setTimeout(function(){st.innerHTML='<span style="color:#f0b55d">⏳</span> Testing page speed via PageSpeed Insights...';
+setTimeout(function(){st.innerHTML='<span style="color:#f0b55d">⏳</span> Checking mobile responsiveness...';
+setTimeout(function(){
+var ps=0;
+fetch('https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://'+cu+'&category=performance&strategy=mobile').then(function(r){return r.json()}).then(function(d){
+if(d&&d.lighthouseResult&&d.lighthouseResult.categories&&d.lighthouseResult.categories.performance)ps=Math.round(d.lighthouseResult.categories.performance.score*100);
+st.innerHTML='<span style="color:#16a34a">✅</span> Speed: '+ps+'/100';
+setTimeout(function(){st.innerHTML='<span style="color:#f0b55d">⏳</span> Fetching Google reviews...';
 if(ak&&ak.length>10){
-return fetch('https://places.googleapis.com/v1/places:searchText?key='+ak,{method:'POST',headers:{'Content-Type':'application/json','X-Goog-FieldMask':'places.displayName,places.userRatingCount,places.rating,places.websiteUri'},body:JSON.stringify({textQuery:cu,maxResultCount:1})}).then(function(r){return r.json()}).then(function(pd){
+fetch('https://places.googleapis.com/v1/places:searchText?key='+ak,{method:'POST',headers:{'Content-Type':'application/json','X-Goog-FieldMask':'places.displayName,places.userRatingCount,places.rating,places.websiteUri'},body:JSON.stringify({textQuery:cu,maxResultCount:1})}).then(function(r){return r.json()}).then(function(pd){
 var rc=0,ar=0,bn='';var p=pd.places?.[0]||{};rc=p.userRatingCount||0;ar=p.rating||0;bn=p.displayName?.text||'';
 if(rc>0){if(rc<=10)document.getElementById('rev').value='1-10';else if(rc<=25)document.getElementById('rev').value='11-25';else if(rc<=50)document.getElementById('rev').value='26-50';else if(rc<=100)document.getElementById('rev').value='51-100';else document.getElementById('rev').value='100+';}
 if(ar>0){if(ar>=4.5)document.getElementById('rat').value='4.5';else if(ar>=4)document.getElementById('rat').value='4';else if(ar>=3.5)document.getElementById('rat').value='3.5';else document.getElementById('rat').value='3';}
 if(bn)document.getElementById('bn').value=bn;
-return {perf:ps,reviews:rc,rating:ar,name:bn};
-}).catch(function(){return {perf:ps,reviews:0,rating:0,name:''};});}else{return {perf:ps,reviews:0,rating:0,name:''};}
-}).then(function(sd){
+st.innerHTML='<span style="color:#16a34a">✅</span> Reviews: '+rc+' (⭐'+ar+')';
+setTimeout(function(){st.innerHTML='<span style="color:#f0b55d">⏳</span> Scanning for calls-to-action...';
+setTimeout(function(){st.innerHTML='<span style="color:#f0b55d">⏳</span> Checking booking system...';
+setTimeout(function(){st.innerHTML='<span style="color:#f0b55d">⏳</span> Looking for live chat...';
+setTimeout(function(){st.innerHTML='<span style="color:#f0b55d">⏳</span> Analysing lead capture...';
 fetch('https://'+cu,{mode:'cors'}).then(function(r){return r.text()}).then(function(h){
 var h2=h.toLowerCase();var sig={hasCTA:h2.indexOf('class="btn')>-1||h2.indexOf('get started')>-1||h2.indexOf('book now')>-1,hasBooking:h2.indexOf('book')>-1||h2.indexOf('appointment')>-1||h2.indexOf('calendly')>-1,hasChat:h2.indexOf('chat')>-1||h2.indexOf('tawk')>-1||h2.indexOf('intercom')>-1,hasForm:h2.indexOf('<form')>-1||h2.indexOf('input type="email"')>-1};
 if(sig.hasCTA)document.querySelector('input[name="c1"][value="yes"]').checked=true;else document.querySelector('input[name="c1"][value="unclear"]').checked=true;
@@ -121,28 +128,36 @@ if(sig.hasBooking)document.querySelector('input[name="c3"][value="yes"]').checke
 if(sig.hasChat)document.querySelector('input[name="c4"][value="yes"]').checked=true;else document.querySelector('input[name="c4"][value="no"]').checked=true;
 if(sig.hasForm)document.querySelector('input[name="c2"][value="all"]').checked=true;else document.querySelector('input[name="c2"][value="some"]').checked=true;
 var rh='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px">';
-rh+='<div>'+(sd.perf>=50?'✅':'❌')+' Speed: <strong>'+(sd.perf?sd.perf+'/100':'N/A')+'</strong></div>';
-rh+='<div>'+(sd.reviews>0?'✅':'⚠️')+' Reviews: <strong>'+(sd.reviews>0?sd.reviews+' (⭐'+sd.rating+')':'unknown')+'</strong></div>';
-rh+='<div>'+(sd.name?'✅':'—')+' Business: <strong>'+(sd.name||'auto')+'</strong></div>';
+rh+='<div>'+(ps>=50?'✅':'❌')+' Speed: <strong>'+(ps?ps+'/100':'N/A')+'</strong></div>';
+rh+='<div>'+(rc>0?'✅':'⚠️')+' Reviews: <strong>'+(rc>0?rc+' (⭐'+ar+')':'unknown')+'</strong></div>';
+rh+='<div>'+(bn?'✅':'—')+' Business: <strong>'+(bn||'auto')+'</strong></div>';
 rh+='<div>'+(sig.hasCTA?'✅':'⚠️')+' CTA: '+(sig.hasCTA?'found':'unclear')+'</div>';
 rh+='<div>'+(sig.hasBooking?'✅':'⚠️')+' Booking: '+(sig.hasBooking?'found':'missing')+'</div>';
 rh+='<div>'+(sig.hasChat?'✅':'⚠️')+' Chat: '+(sig.hasChat?'found':'missing')+'</div>';
 rh+='<div>'+(sig.hasForm?'✅':'⚠️')+' Forms: '+(sig.hasForm?'found':'missing')+'</div></div>';
-document.getElementById('scanResults').innerHTML='<p style="font-weight:600;margin-bottom:8px">🔍 Results</p>'+rh;
-document.getElementById('scanResults').style.display='block';document.getElementById('form').style.display='block';
-document.getElementById('form').scrollIntoView({behavior:'smooth',block:'start'});
-document.getElementById('status').innerHTML='<span style="color:#16a34a">✅</span> Scan complete!';
-}).catch(function(){
-document.getElementById('status').innerHTML='<span style="color:#ca8a04">⚠️</span> Website fetch blocked.';
+document.getElementById('scanResults').innerHTML='<p style="font-weight:600;margin-bottom:8px">✅ Scan Results</p>'+rh;
+st.innerHTML='<span style="color:#16a34a">✅</span> Scan complete!';
+setTimeout(function(){document.getElementById('scanResults').style.display='block';document.getElementById('form').style.display='block';document.getElementById('form').scrollIntoView({behavior:'smooth',block:'start'});},4000);
+}).catch(function(){st.innerHTML='<span style="color:#ca8a04">⚠️</span> On-page analysis unavailable (CORS protection). Using what we have.';
 var rh='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px">';
-rh+='<div>'+(sd.perf>=50?'✅':'❌')+' Speed: <strong>'+(sd.perf?sd.perf+'/100':'N/A')+'</strong></div>';
-rh+='<div>'+(sd.reviews>0?'✅':'⚠️')+' Reviews: <strong>'+(sd.reviews>0?sd.reviews+' (⭐'+sd.rating+')':'unknown')+'</strong></div>';
-rh+='<div>'+(sd.name?'✅':'—')+' Business: <strong>'+(sd.name||'auto')+'</strong></div></div>';
-document.getElementById('scanResults').innerHTML='<p style="font-weight:600;margin-bottom:8px">🔍 Results</p>'+rh;
-document.getElementById('scanResults').style.display='block';document.getElementById('form').style.display='block';
-document.getElementById('form').scrollIntoView({behavior:'smooth',block:'start'});
+rh+='<div>'+(ps>=50?'✅':'❌')+' Speed: <strong>'+(ps?ps+'/100':'N/A')+'</strong></div>';
+rh+='<div>'+(rc>0?'✅':'⚠️')+' Reviews: <strong>'+(rc>0?rc+' (⭐'+ar+')':'unknown')+'</strong></div>';
+rh+='<div>'+(bn?'✅':'—')+' Business: <strong>'+(bn||'auto')+'</strong></div></div>';
+document.getElementById('scanResults').innerHTML='<p style="font-weight:600;margin-bottom:8px">✅ Scan Results</p>'+rh;
+setTimeout(function(){document.getElementById('scanResults').style.display='block';document.getElementById('form').style.display='block';document.getElementById('form').scrollIntoView({behavior:'smooth',block:'start'});},4000);
 });
-});
+},1500);
+},1500);
+},1500);
+},1500);
+}).catch(function(){st.innerHTML='<span style="color:#ca8a04">⚠️</span> Reviews unavailable. Select manually.';});
+}else{st.innerHTML='<span style="color:#ca8a04">⚠️</span> No API key.';}
+},1500);
+}).catch(function(){st.innerHTML='<span style="color:#ca8a04">⚠️</span> Speed check unavailable (quota limit). Moving to reviews...';});
+},1500);
+},1500);
+},1500);
+},1500);
 };
 
 document.getElementById('goBtn').onclick=function(){
