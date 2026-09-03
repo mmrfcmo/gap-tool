@@ -103,7 +103,7 @@ var st=document.getElementById('status');
 st.innerHTML='<span style="color:#f0b55d">⏳</span> Scanning website...';
 var ps=0,rc=0,ar=0,bn='';
 try{
-fetch('https://pagespeed.web.dev/api?url=https://'+cu+'&category=performance&strategy=mobile').then(function(r){return r.json()}).then(function(d){
+fetch('https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://'+cu+'&category=performance&strategy=mobile').then(function(r){return r.json()}).then(function(d){
 if(d&&d.lighthouseResult&&d.lighthouseResult.categories&&d.lighthouseResult.categories.performance)ps=Math.round(d.lighthouseResult.categories.performance.score*100);
 st.innerHTML='<span style="color:#16a34a">✅</span> Speed: '+ps+'/100';
 if(ak&&ak.length>10){
