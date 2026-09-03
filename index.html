@@ -147,7 +147,7 @@ document.getElementById('scanResults').innerHTML='<p style="font-weight:600;marg
 document.getElementById('scanResults').style.display='block';document.getElementById('form').style.display='block';
 document.getElementById('form').scrollIntoView({behavior:'smooth',block:'start'});
 st.innerHTML='<span style="color:#16a34a">✅</span> Scan complete!';
-}).catch(function(){st.innerHTML='<span style="color:#ca8a04">⚠️</span> Website fetch blocked.';
+}).catch(function(){st.innerHTML='<span style="color:#ca8a04">⚠️</span> Website fetch blocked.';setTimeout(function(){
 var rh='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px">';
 rh+='<div>'+(ps>=50?'✅':'❌')+' Speed: <strong>'+(ps?ps+'/100':'N/A')+'</strong></div>';
 rh+='<div>'+(rc>0?'✅':'⚠️')+' Reviews: <strong>'+(rc>0?rc+' (⭐'+ar+')':'unknown')+'</strong></div>';
