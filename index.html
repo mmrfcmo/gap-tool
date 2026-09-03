@@ -201,21 +201,19 @@ var opp=document.getElementById('oppOut').textContent;
 var bn=document.getElementById('bizName').value||'Not provided';
 st.innerHTML='<span style="color:#f0b55d">⏳</span> Sending...';
 // Send via Web3Forms (free, no account needed)
-fetch('https://api.web3forms.com/submit',{
-method:'POST',
-headers:{'Content-Type':'application/json'},
-body:JSON.stringify({
-access_key:'YOUR_WEB3FORMS_KEY_HERE',
-subject:'New Growth Gap Analysis Lead - '+bn,
-from_name:'MR Growth Partners',
-email:email,
-business_name:bn,
-growth_score:score,
-annual_opportunity:opp,
-message:'New lead from Growth Gap Analysis tool. Score: '+score+', Opportunity: '+opp
-})
+var formData = new FormData();
+formData.append('email', email);
+formData.append('business_name', bn);
+formData.append('growth_score', score);
+formData.append('annual_opportunity', opp);
+formData.append('_subject', 'New Growth Gap Analysis Lead - ' + bn);
+formData.append('_replyto', email);
+fetch('https://formspree.io/f/mnpqzqng', {
+method: 'POST',
+body: formData,
+headers: {'Accept': 'application/json'}
 }).then(function(r){return r.json()}).then(function(d){
-if(d.success){
+if(d.ok || d.success){
 st.innerHTML='<span style="color:#16a34a">✅</span> Thanks! We will be in touch shortly.';
 document.getElementById('leadEmail').value='';
 }else{
