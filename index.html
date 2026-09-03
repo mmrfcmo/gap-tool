@@ -97,16 +97,15 @@ body{background:#f8f6f3;color:#18181b;-webkit-font-smoothing:antialiased}
 var ak='AIzaSyDHTr05tzOKKvFUWNIV90dMFuIuYWr0wiY';
 document.getElementById('scanBtn').onclick=function(){
 var st=document.getElementById('status');st.innerHTML='<span style="color:#f0b55d">⏳</span> Scanning your website...';
-
 var cu=document.getElementById('su').value.trim();
 if(!cu){document.getElementById('status').textContent='Please enter a website name';return}
 st.innerHTML='⏳ Scanning...';
 document.getElementById('scanResults').style.display='none';document.getElementById('form').style.display='none';
 fetch('https://pagespeed.web.dev/api?url=https://'+cu+'&category=performance&strategy=mobile').then(function(r){return r.json()}).then(function(d){
 var ps=0;if(d&&d.lighthouseResult&&d.lighthouseResult.categories&&d.lighthouseResult.categories.performance)ps=Math.round(d.lighthouseResult.categories.performance.score*100);
-document.getElementById('status').innerHTML='<span style="color:#16a34a">✅</span> Speed: '+ps+'/100. Checking reviews...';
+st.innerHTML='<span style="color:#16a34a">✅</span> Speed: '+(ps>0?ps+'/100':'N/A')+'. Checking reviews...';
 return ps;
-}).catch(function(){document.getElementById('status').innerHTML='Speed unavailable.';return null;}).then(function(ps){
+}).catch(function(){st.innerHTML='Speed unavailable.';return null;}).then(function(ps){
 if(ak&&ak.length>10){
 return fetch('https://places.googleapis.com/v1/places:searchText?key='+ak,{method:'POST',headers:{'Content-Type':'application/json','X-Goog-FieldMask':'places.displayName,places.userRatingCount,places.rating,places.websiteUri'},body:JSON.stringify({textQuery:cu,maxResultCount:1})}).then(function(r){return r.json()}).then(function(pd){
 var rc=0,ar=0,bn='';var p=pd.places?.[0]||{};rc=p.userRatingCount||0;ar=p.rating||0;bn=p.displayName?.text||'';
@@ -131,17 +130,17 @@ rh+='<div>'+(sig.hasBooking?'✅':'⚠️')+' Booking: '+(sig.hasBooking?'found'
 rh+='<div>'+(sig.hasChat?'✅':'⚠️')+' Chat: '+(sig.hasChat?'found':'missing')+'</div>';
 rh+='<div>'+(sig.hasForm?'✅':'⚠️')+' Forms: '+(sig.hasForm?'found':'missing')+'</div></div>';
 document.getElementById('scanResults').innerHTML='<p style="font-weight:600;margin-bottom:8px">🔍 Results</p>'+rh;
-document.getElementById('scanResults').style.display='block';document.getElementById('form').style.display='block';
+setTimeout(function(){document.getElementById('scanResults').style.display='block';document.getElementById('form').style.display='block';document.getElementById('form').scrollIntoView({behavior:'smooth',block:'start'});},4000);
 document.getElementById('form').scrollIntoView({behavior:'smooth',block:'start'});
-document.getElementById('status').innerHTML='<span style="color:#16a34a">✅</span> Scan complete!';
+st.innerHTML='<span style="color:#16a34a">✅</span> Scan complete!';
 }).catch(function(){
-document.getElementById('status').innerHTML='<span style="color:#ca8a04">⚠️</span> Website fetch blocked.';
+st.innerHTML='<span style="color:#ca8a04">⚠️</span> Website fetch blocked.';
 var rh='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px">';
 rh+='<div>'+(sd.perf>=50?'✅':'❌')+' Speed: <strong>'+(sd.perf?sd.perf+'/100':'N/A')+'</strong></div>';
 rh+='<div>'+(sd.reviews>0?'✅':'⚠️')+' Reviews: <strong>'+(sd.reviews>0?sd.reviews+' (⭐'+sd.rating+')':'unknown')+'</strong></div>';
 rh+='<div>'+(sd.name?'✅':'—')+' Business: <strong>'+(sd.name||'auto')+'</strong></div></div>';
 document.getElementById('scanResults').innerHTML='<p style="font-weight:600;margin-bottom:8px">🔍 Results</p>'+rh;
-document.getElementById('scanResults').style.display='block';document.getElementById('form').style.display='block';
+setTimeout(function(){document.getElementById('scanResults').style.display='block';document.getElementById('form').style.display='block';document.getElementById('form').scrollIntoView({behavior:'smooth',block:'start'});},4000);
 document.getElementById('form').scrollIntoView({behavior:'smooth',block:'start'});
 });
 });
