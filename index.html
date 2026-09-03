@@ -64,6 +64,9 @@ body{background:#f8f6f3;color:#18181b;-webkit-font-smoothing:antialiased}
   .text-xs{font-size:11px !important}
   .text-sm{font-size:12px !important}
 }
+
+.scan-results-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:13px}
+@media (max-width:480px){.scan-results-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -166,7 +169,7 @@ if(sig.hasCTA)document.querySelector('input[name="c1"][value="yes"]').checked=tr
 if(sig.hasBooking)document.querySelector('input[name="c3"][value="yes"]').checked=true;else document.querySelector('input[name="c3"][value="no"]').checked=true;
 if(sig.hasChat)document.querySelector('input[name="c4"][value="yes"]').checked=true;else document.querySelector('input[name="c4"][value="no"]').checked=true;
 if(sig.hasForm)document.querySelector('input[name="c2"][value="all"]').checked=true;else document.querySelector('input[name="c2"][value="some"]').checked=true;
-var rh='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px">';
+var rh='<div class="scan-results-grid">';
 rh+='<div>'+(ps>=50?'✅':'❌')+' Speed: <strong>'+(ps>0?ps+'/100':'N/A')+'</strong></div>';
 rh+='<div>'+(rc>0?'✅':'⚠️')+' Reviews: <strong>'+(rc>0?rc+' (⭐'+ar+')':'unknown')+'</strong></div>';
 rh+='<div>'+(bn?'✅':'—')+' Business: <strong>'+(bn||'auto')+'</strong></div>';
@@ -178,7 +181,7 @@ document.getElementById('scanResults').innerHTML='<p style="font-weight:600;marg
 st.innerHTML='<span style="color:#16a34a">✅</span> Scan complete!';
 setTimeout(function(){document.getElementById('scanResults').style.display='block';document.getElementById('form').style.display='block';document.getElementById('form').scrollIntoView({behavior:'smooth',block:'start'});},4000);
 }).catch(function(){st.innerHTML='<span style="color:#ca8a04">⚠️</span> On-page analysis unavailable (CORS protection). Using what we have.';
-var rh='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:13px">';
+var rh='<div class="scan-results-grid">';
 rh+='<div>'+(ps>=50?'✅':'❌')+' Speed: <strong>'+(ps?ps+'/100':'N/A')+'</strong></div>';
 rh+='<div>'+(rc>0?'✅':'⚠️')+' Reviews: <strong>'+(rc>0?rc+' (⭐'+ar+')':'unknown')+'</strong></div>';
 rh+='<div>'+(bn?'✅':'—')+' Business: <strong>'+(bn||'auto')+'</strong></div></div>';
