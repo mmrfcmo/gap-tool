@@ -190,6 +190,40 @@ var url = 'https://mmrfcmo.github.io/gap-tool/blueprint-report.html?' + params.t
 document.getElementById('reportLinkOut').innerHTML = '<a href="'+url+'" target="_blank" style="color:#f0b55d;font-weight:600">📄 Open Report →</a><br><span style="font-size:11px;color:#888">Copy this link to share with anyone</span>';
 document.getElementById('reportLinkOut').style.display = 'block';
 navigator.clipboard.writeText(url).then(function(){document.getElementById('reportLinkOut').innerHTML = '✅ Link copied!<br><a href="'+url+'" target="_blank" style="color:#f0b55d;font-weight:600">📄 Open Report →</a>';}).catch(function(){});
+};
+
+document.getElementById('bookReviewBtn').onclick=function(){
+var email=document.getElementById('leadEmail').value.trim();
+var st=document.getElementById('emailStatus');
+if(!email){st.innerHTML='Please enter your email';return;}
+var score=document.getElementById('scoreOut').textContent;
+var opp=document.getElementById('oppOut').textContent;
+var bn=document.getElementById('bizName').value||'Not provided';
+st.innerHTML='<span style="color:#f0b55d">⏳</span> Sending...';
+// Send via Web3Forms (free, no account needed)
+fetch('https://api.web3forms.com/submit',{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify({
+access_key:'YOUR_WEB3FORMS_KEY_HERE',
+subject:'New Growth Gap Analysis Lead - '+bn,
+from_name:'MR Growth Partners',
+email:email,
+business_name:bn,
+growth_score:score,
+annual_opportunity:opp,
+message:'New lead from Growth Gap Analysis tool. Score: '+score+', Opportunity: '+opp
+})
+}).then(function(r){return r.json()}).then(function(d){
+if(d.success){
+st.innerHTML='<span style="color:#16a34a">✅</span> Thanks! We will be in touch shortly.';
+document.getElementById('leadEmail').value='';
+}else{
+st.innerHTML='<span style="color:#ca8a04">⚠️</span> Error sending. Please email us directly.';
+}
+}).catch(function(){
+st.innerHTML='<span style="color:#ca8a04">⚠️</span> Error sending. Please email us directly.';
+});
 };</script>
 </body>
 </html>
